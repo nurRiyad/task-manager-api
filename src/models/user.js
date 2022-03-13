@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -12,6 +13,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+    lowercase: true,
+    unique: true,
     validate(value) {
       if (!validator.isEmail(value)) {
         throw new Error("Email Is not valid");
@@ -38,8 +41,52 @@ const userSchema = new mongoose.Schema({
       }
     },
   },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
+//Add jwtAuth function to user instance
+userSchema.methods.jwtAuthGenerate = async function () {
+  const user = this;
+  const token = jwt.sign({ _id: user._id.toString() }, "riyad");
+  user.tokens = user.tokens.concat({ token });
+  await user.save();
+  return token;
+};
+
+//Filter the send object ot trim down valuable data
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.tokens;
+  delete userObject.password;
+
+  return userObject;
+};
+
+//Compare and return the user
+userSchema.statics.findUser = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Unable to login");
+  } else {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new Error("Unable to login");
+    } else {
+      return user;
+    }
+  }
+};
+
+//Hash password before saving into database
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
