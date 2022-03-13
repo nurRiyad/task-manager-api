@@ -1,5 +1,5 @@
 const express = require("express");
-const Task = require("./../model/task");
+const Task = require("../models/task");
 const router = new express.Router();
 
 //creating a new task
@@ -48,13 +48,12 @@ router.patch("/task/:id", async (req, res) => {
     res.status(400).send({ error: "Not Valid Update operation" });
   } else {
     try {
-      const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-      });
+      const task = await Task.findById(req.params.id);
       if (!task) {
         res.status(404).send();
       } else {
+        updateParams.forEach((key) => (task[key] = req.body[key]));
+        await task.save();
         res.send(task);
       }
     } catch (err) {

@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
-//user model to create a new user account
-const User = mongoose.model("users", {
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -39,5 +39,16 @@ const User = mongoose.model("users", {
     },
   },
 });
+
+userSchema.pre("save", async function (next) {
+  const user = this;
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
+  next();
+});
+
+//user model to create a new user account
+const User = mongoose.model("users", userSchema);
 
 module.exports = User;
