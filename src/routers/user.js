@@ -2,6 +2,8 @@ const express = require("express");
 const User = require("../models/user");
 const auth = require("./../middleware/auth");
 const router = new express.Router();
+const multer = require("multer");
+const sharp = require("sharp");
 
 //Create A new User
 router.post("/user", async (req, res) => {
@@ -80,6 +82,69 @@ router.delete("/user/me", auth, async (req, res) => {
   try {
     await req.user.remove();
     res.send(req.user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+//Upload your avatar
+const upload = multer({
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/.(jpg|jpeg|png)$/)) {
+      cb(new Error("Please upload only image"));
+    } else {
+      cb(undefined, true);
+    }
+  },
+});
+router.post(
+  "/user/me/avatar",
+  auth,
+  upload.single("avatar"),
+  async (req, res) => {
+    try {
+      const buffer = await sharp(req.file.buffer)
+        .resize({ width: 250, height: 250 })
+        .png()
+        .toBuffer();
+      req.user.avatar = buffer;
+      await req.user.save();
+      res.send();
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
+  (error, req, res, next) => {
+    res
+      .status(400)
+      .send({ error: "Pease Upload Image type file with size <1m Size" });
+  }
+);
+
+//Avatar delete route
+router.delete("/user/me/avatar", auth, async (req, res) => {
+  try {
+    req.user.avatar = undefined;
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+//Get Avatar By Id
+router.get("/user/:id/avatar", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user || !user.avatar) {
+      throw new Error();
+    }
+
+    res.set("Content-Type", "image/png");
+    res.send(user.avatar);
   } catch (error) {
     res.status(400).send(error);
   }
