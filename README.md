@@ -64,8 +64,8 @@ A simple API server that can be used for creating, reading, updating, and deleti
     - Body : :point_down:
         ```json
         {
-            "email":"alasadnurriyad3@gmial.com",
-            "password":"12345678"
+            "email":"sdfsd@gmial.com",
+            "password":"sdfsdf"
         }
         ```
 - `/task`
