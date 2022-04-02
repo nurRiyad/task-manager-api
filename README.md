@@ -42,6 +42,8 @@ A simple API server that can be used for creating, reading, updating, and deleti
 - Finally run `npm run dev` to run the development server 
 
 # API Documentation
+> Below there are mainly two types of api public & private. Pubic apis don't require any access tokens but all private apis require authtoken as a header. 
+
 
 - `/user`
     - Method : `POST`
