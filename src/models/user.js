@@ -69,7 +69,7 @@ userSchema.virtual("tasks", {
 //Add jwtAuth function to user instance
 userSchema.methods.jwtAuthGenerate = async function () {
   const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, "riyad");
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
