@@ -1,10 +1,10 @@
 # task-manager
----
+
 A simple API server that can be used for creating, reading, updating, and deleting user accounts and user-specific tasks with complete and incomplete status. We also use the MongoDB database to store users data and their tasks.
 
 
 # Main Feature
----
+
 - Create user account with username and email address
 - Get confirmation email for successfully creating account
 - Upload & delete profile Picture
@@ -20,7 +20,7 @@ A simple API server that can be used for creating, reading, updating, and deleti
 
 
 # Installation
----
+
 - Make sure you have properly installed nodejs and npm in your machine
 - At the time of creating this project my nodejs & npm version is v16.14.2 & v8.5.0
 - Make sure you have a MongoDB database running in your local machine, mine is v5.0.6 
@@ -42,7 +42,6 @@ A simple API server that can be used for creating, reading, updating, and deleti
 - Finally run `npm run dev` to run the development server 
 
 # API Documentation
----
 
 - `/user`
     - Method: `POST`
