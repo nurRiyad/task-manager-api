@@ -1,4 +1,4 @@
-# task-manager
+# Task-Manager
 
 A simple API server that can be used for creating, reading, updating, and deleting user accounts and user-specific tasks with complete and incomplete status. We also use the MongoDB database to store users data and their tasks.
 
@@ -60,7 +60,7 @@ A simple API server that can be used for creating, reading, updating, and deleti
 - `/user/login`
     - Method : `POST`
     - Type : Public
-    - Action : Login a user and send the user object with access tokens
+    - Action : Login a user and send the user object with access token
     - Body : :point_down:
         ```json
         {
@@ -79,40 +79,62 @@ A simple API server that can be used for creating, reading, updating, and deleti
         }
         ```
 
+
 - `/user/logout`
     - Method : `POST`
     - Type : Private
     - Action : Logout the user and send nothing 
     - Body : Empty
 
-- `/user/logout`
+
+
+- `/user/logoutAll`
     - Method : `POST`
     - Type : Private
     - Action : Logout from all device and send nothing
     - Body : Empty
+  
+
+- `/user/me/avatar`
+    - Method : `POST`
+    - Type : Private
+    - Action : Update profile picture in logged in user
+    - Body : It accept jpg,jpeg,png type and >1mb image
+
+
 
 - `/user/me`
     - Method : `GET`
     - Type : Private
-    - Action : Return the loggedin user data
+    - Action : Send the logged in user data
     - Body : Empty
+
+
 
 - `/tasks`
     - Method : `GET`
     - Type : Private
-    - Action : Return All created task of a loggeding user
+    - Action : Return All created task of a logged in user
     - Body : Empty
 
 - `/task/:id`
     - Method : `GET`
     - Type : Private
-    - Action : Return a specific task of the loggedin user
+    - Action : Return a specific task of the logged in user
     - Body : Empty
+
+
+- `/user/:id/avatar`
+    - Method : `GET`
+    - Type : Public
+    - Action : Return a profile picture of specific user 
+    - Body : Empty
+
 
 - `/user/me`
     - Method : `PATCH`
     - Type : Private
-    - Action : Update the current loggedin user information and send the user updated info
+    - Action : Update the current logged in user information and send the user updated info
     - Body : :point_down:
         ```json
         {
@@ -138,7 +160,7 @@ A simple API server that can be used for creating, reading, updating, and deleti
 - `/user/me`
     - Method : `DELETE`
     - Type : Private
-    - Action : Delete the loggedin user account  and send the user information
+    - Action : Delete the logged in user account  and send the user information
     - Body : Empty
 
 - `/task/:id`
@@ -147,20 +169,11 @@ A simple API server that can be used for creating, reading, updating, and deleti
     - Action : Delete a specific task and return the task information
     - Body : Empty
 
-- `/user/me/avatar`
-    - Method : `POST`
-    - Type : Private
-    - Action : Update profile picture in loggedin user
-    - Body : It accept jpg,jpeg,png type and >1mb image
 
-- `/user/:id/avatar`
-    - Method : `GET`
-    - Type : Public
-    - Action : Return a profile picture of specific user 
-    - Body : Empty
+
 
 - `/user/me/avatar`
     - Method : `DELETE`
     - Type : Private
-    - Action : Delete loggedin user profile picture
+    - Action : Delete logged in user profile picture
     - Body : Empty
