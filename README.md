@@ -28,11 +28,11 @@ A simple API server that can be used for creating, reading, updating, and deleti
 - Create a config file in the root directory of this project using `mkdir config`
 - Go to the config folder using `cd config` and create dev.env file using `touch dev.env`
 - Open dev.env & set four environment variable in that file 
-  - PORT="YOUR_PREFERABLE_PORT"  *//the prot where your server will start listening*
-  - SEND_IN_BLUE_API_KEY="YOUR_API_KEY" *//Set your own SendInBlue API key*
-  - MONGOD_URL="YOUR_DATABASE_PORT" *//Set your local database url where it is listening*
-  - JWT_SECRET="YOUR_PREFERABLE_SECRET_KEY" *//any secret key you wanna set*
-  - A demo of config/dev.env 
+  - `PORT="YOUR_PREFERABLE_PORT"`  *//the prot where your server will start listening*
+  - `SEND_IN_BLUE_API_KEY="YOUR_API_KEY"` *//Set your own SendInBlue API key*
+  - `MONGOD_URL="YOUR_DATABASE_PORT"` *//Set your local database url where it is listening*
+  - `JWT_SECRET="YOUR_PREFERABLE_SECRET_KEY"` *//any secret key you wanna set*
+  - A demo of config/dev.env :point_down:
   ```
   PORT=3000
   SEND_IN_BLUE_API_KEY=d0ae19dPJ8sdfMsdfbsdfgsdafApdzwKYvj
@@ -44,10 +44,10 @@ A simple API server that can be used for creating, reading, updating, and deleti
 # API Documentation
 
 - `/user`
-    - Method: `POST`
-    - Type: Public
-    - Action: Create a user account and send the account with access token
-    - Body: :point_down:
+    - Method : `POST`
+    - Type : Public
+    - Action : Create a user account and send the account with access token
+    - Body : :point_down:
         ```json
         {
             "name":"demon",
@@ -57,5 +57,110 @@ A simple API server that can be used for creating, reading, updating, and deleti
         }
         ```
 
+- `/user/login`
+    - Method : `POST`
+    - Type : Public
+    - Action : Login a user and send the user object with access tokens
+    - Body : :point_down:
+        ```json
+        {
+            "email":"alasadnurriyad3@gmial.com",
+            "password":"12345678"
+        }
+        ```
+- `/task`
+    - Method : `POST`
+    - Type : Private
+    - Action : Create a task and send that task
+    - Body : :point_down:
+        ```json
+        {
+            "description": "Lunch at 2.00PM",
+        }
+        ```
 
+- `/user/logout`
+    - Method : `POST`
+    - Type : Private
+    - Action : Logout the user and send nothing 
+    - Body : Empty
 
+- `/user/logout`
+    - Method : `POST`
+    - Type : Private
+    - Action : Logout from all device and send nothing
+    - Body : Empty
+
+- `/user/me`
+    - Method : `GET`
+    - Type : Private
+    - Action : Return the loggedin user data
+    - Body : Empty
+
+- `/tasks`
+    - Method : `GET`
+    - Type : Private
+    - Action : Return All created task of a loggeding user
+    - Body : Empty
+
+- `/task/:id`
+    - Method : `GET`
+    - Type : Private
+    - Action : Return a specific task of the loggedin user
+    - Body : Empty
+
+- `/user/me`
+    - Method : `PATCH`
+    - Type : Private
+    - Action : Update the current loggedin user information and send the user updated info
+    - Body : :point_down:
+        ```json
+        {
+            "name":"demon",
+            "email":"demo@gmial.com",
+            "age":"89",
+            "password": "demo123345689"
+        }
+        ```
+
+- `/task/:id`
+    - Method : `PATCH`
+    - Type : Private
+    - Action : Update a specific task information and send the updated information
+    - Body : :point_down:
+        ```json
+        {
+            "description": "Wake Up at 7.00AM",
+           "complete": false,
+        }
+        ```
+
+- `/user/me`
+    - Method : `DELETE`
+    - Type : Private
+    - Action : Delete the loggedin user account  and send the user information
+    - Body : Empty
+
+- `/task/:id`
+    - Method : `DELETE`
+    - Type : Private
+    - Action : Delete a specific task and return the task information
+    - Body : Empty
+
+- `/user/me/avatar`
+    - Method : `POST`
+    - Type : Private
+    - Action : Update profile picture in loggedin user
+    - Body : It accept jpg,jpeg,png type and >1mb image
+
+- `/user/:id/avatar`
+    - Method : `GET`
+    - Type : Public
+    - Action : Return a profile picture of specific user 
+    - Body : Empty
+
+- `/user/me/avatar`
+    - Method : `DELETE`
+    - Type : Private
+    - Action : Delete loggedin user profile picture
+    - Body : Empty
