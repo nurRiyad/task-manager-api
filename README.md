@@ -121,7 +121,7 @@ A simple API server that can be used for creating, reading, updating, and deleti
     - Params: :point_down:
         - `?complete=true/false` return filtered task with complete equals true of false
         - `?limit=1/10` return limited number of task per request 
-        - `?skip=1/2` return tasks but skiping frist skip number of task
+        - `?skip=1/2` return tasks but skipping first skip number of task
         - `?sortBy=createdAt:desc/asc` return all task in sorted order by it's created time ascending or descending order
 
 - `/task/:id`
