@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "jest",
+    "test": "env-cmd -f ./config/test.env jest --watchAll --detectOpenHandles",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "riyad",
   "license": "ISC",
@@ -23,6 +26,7 @@
   "devDependencies": {
     "env-cmd": "^10.1.0",
     "jest": "^27.5.1",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }
