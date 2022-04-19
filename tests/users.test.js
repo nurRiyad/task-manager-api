@@ -1,12 +1,22 @@
 const app = require("./../src/app");
 const request = require("supertest");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const User = require("../src/models/user");
 
+const userOneId = new mongoose.Types.ObjectId();
+
 const userOne = {
+  _id: userOneId,
   name: "jon",
   age: 50,
   email: "jon@gmail.com",
   password: "abcdefghijk",
+  tokens: [
+    {
+      token: jwt.sign({ _id: userOneId }, process.env.JWT_SECRET),
+    },
+  ],
 };
 
 beforeEach(async () => {
@@ -43,5 +53,37 @@ test("Should not login with false password", async () => {
       email: "jon@gmail.com",
       password: "abcdefghijkl",
     })
+    .expect(400);
+});
+
+test("Should get profile for the user", async () => {
+  await request(app)
+    .get("/user/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200);
+});
+
+test("Should not get profile for the user", async () => {
+  await request(app)
+    .get("/user/me")
+    .set("Authorization", `Bearer rrr`)
+    .send()
+    .expect(400);
+});
+
+test("Should delete account for the user", async () => {
+  await request(app)
+    .delete("/user/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200);
+});
+
+test("Should not delete account for the user", async () => {
+  await request(app)
+    .delete("/user/me")
+    .set("Authorization", `Bearer sdf`)
+    .send()
     .expect(400);
 });
