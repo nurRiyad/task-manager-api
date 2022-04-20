@@ -25,25 +25,37 @@ beforeEach(async () => {
 });
 
 test("creating a new user account", async () => {
-  await request(app)
+  const response = await request(app)
     .post("/user")
     .send({
       name: "riyad",
       email: "sdfffsd@gmail.com",
-      age: 20,
+      age: 50,
       password: "sdfsdwer324sdfs",
     })
     .expect(201);
+  const user = await User.findById(response.body.user._id);
+  expect(user).not.toBeNull();
+  expect(response.body).toMatchObject({
+    user: {
+      name: "riyad",
+      email: "sdfffsd@gmail.com",
+      age: 50,
+    },
+  });
+  expect(user.password).not.toBe("sdfsdwer324sdfs");
 });
 
 test("logging in a existing user account", async () => {
-  await request(app)
+  const response = await request(app)
     .post("/user/login")
     .send({
       email: "jon@gmail.com",
       password: "abcdefghijk",
     })
     .expect(200);
+  const user = await User.findById(userOneId);
+  expect(response.body.token).toBe(user.tokens[1].token);
 });
 
 test("Should not login with false password", async () => {
@@ -78,6 +90,8 @@ test("Should delete account for the user", async () => {
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .send()
     .expect(200);
+  const user = await User.findById(userOneId);
+  expect(user).toBeNull();
 });
 
 test("Should not delete account for the user", async () => {
