@@ -36,3 +36,19 @@ test("Should get all task of a user", async () => {
     .expect(200);
   expect(response.body.length).toEqual(2);
 });
+
+test("should delete a task of a user", async () => {
+  await request(app)
+    .delete(`/task/${taskOne._id}`)
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200);
+});
+
+test("should not delete a task of another user", async () => {
+  await request(app)
+    .delete(`/task/${taskOne._id}`)
+    .set("Authorization", `Bearer ${userTwo.tokens[0].token}`)
+    .send()
+    .expect(404);
+});
