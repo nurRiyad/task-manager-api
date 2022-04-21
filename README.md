@@ -184,3 +184,21 @@ A simple API server that can be used for creating, reading, updating, and deleti
     - Type : Private
     - Action : Delete logged in user profile picture
     - Body : Empty
+
+
+# Testing
+
+For properly testing the api I used Jest. Jest is a JavaScript testing framework. For testing purpose I create a separate environment.
+
+Above in the installation part how I setup my dev environment, similarly we have to setup a test.env file to test our project properly. A demo test.env file might look like this,
+
+```
+PORT=3000
+SEND_IN_BLUE_API_KEY=d0ae19dPJ8sdfMsdfbsdfgsdafApdzwKYvj
+MONGOD_URL=mongodb://127.0.0.1:27017/demo
+JWT_SECRET=mysecretkey
+```
+
+Make sure to create a different mongod url for the dev and test environment to avoid unnecessary mixin of your test data and development mode data.
+
+To stop sending mail in the testing phase I have mocked the sib-api-v3-sdk module.
