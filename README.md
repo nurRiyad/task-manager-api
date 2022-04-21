@@ -188,7 +188,7 @@ A simple API server that can be used for creating, reading, updating, and deleti
 
 # Testing
 
-For properly testing the api I used Jest. Jest is a JavaScript testing framework. For testing purpose I create a separate environment.
+For properly testing the api's I used Jest. Jest is a JavaScript testing framework. For testing purpose I create a separate environment.
 
 Above in the installation part how I setup my dev environment, similarly we have to setup a test.env file to test our project properly. A demo test.env file might look like this,
 
